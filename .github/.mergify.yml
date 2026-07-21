@@ -87,8 +87,8 @@ pull_request_rules:
   - name: Automatically merge Renovate PRs (v5.5)
     conditions:
       - base=release/v5.5
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=renovate-rancher[bot]
       - -conflict
     actions:
@@ -98,8 +98,8 @@ pull_request_rules:
   - name: Automatically merge Backport PRs (v5.5)
     conditions:
       - base=release/v5.5
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=mergify[bot]
       - -conflict
     actions:
@@ -109,8 +109,8 @@ pull_request_rules:
   - name: Automatically merge Renovate PRs (v5.4)
     conditions:
       - base=release/v5.4
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=renovate-rancher[bot]
       - -conflict
     actions:
@@ -120,8 +120,8 @@ pull_request_rules:
   - name: Automatically merge Backport PRs (v5.4)
     conditions:
       - base=release/v5.4
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=mergify[bot]
       - -conflict
     actions:
@@ -187,8 +187,8 @@ pull_request_rules:
   - name: Automatically approve Renovate PRs (v5.5)
     conditions:
       - base=release/v5.5
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=renovate-rancher[bot]
       - -conflict
     actions:
@@ -199,8 +199,8 @@ pull_request_rules:
   - name: Automatically approve Backport PRs (v5.5)
     conditions:
       - base=release/v5.5
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=mergify[bot]
       - -conflict
     actions:
@@ -211,8 +211,8 @@ pull_request_rules:
   - name: Automatically approve Renovate PRs (v5.4)
     conditions:
       - base=release/v5.4
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=renovate-rancher[bot]
       - -conflict
     actions:
@@ -223,8 +223,8 @@ pull_request_rules:
   - name: Automatically approve Backport PRs (v5.4)
     conditions:
       - base=release/v5.4
-      - check-success=unitest
-      - check-success=golangci
+      - check-success=Run unitest on push and pull request/unitest
+      - check-success=golangci-lint/lint
       - author=mergify[bot]
       - -conflict
     actions:
