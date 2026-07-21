@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # NeuVector [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/neuvector/neuvector/badge)](https://scorecard.dev/viewer/?uri=github.com/neuvector/neuvector)
+=======
+# Po tNeuVector [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/neuvector/neuvector/badge)](https://scorecard.dev/viewer/?uri=github.com/neuvector/neuvector)
+>>>>>>> e110bd51 (r (#11))
 
 NeuVector Full Lifecycle Container Security Platform delivers the only cloud-native security with uncompromising end-to-end protection from DevOps vulnerability protection to automated run-time security, and featuring a true Layer 7 container firewall.
 
