@@ -216,8 +216,9 @@ func group2REST(cache *groupCache, view string, withCap bool) *api.RESTGroup {
 	}
 
 	for m := range cache.members.Iter() {
-		wl, err := getWorkloadBrief(m.(string), view, access.NewReaderAccessControl())
-		if err != nil {
+		wlID := m.(string)
+		wl, err := getWorkloadBrief(wlID, view, access.NewReaderAccessControl())
+		if err != nil && wlID != "" {
 			log.WithError(err).Warn("failed to get workload brief")
 		}
 		if wl != nil {
@@ -1345,7 +1346,7 @@ func hostWorkloadStart(id string, param interface{}) {
 		host.runningCntrs.Add(wl.ID)
 		host.workloads.Add(wl.ID)
 		if err := db.UpdateHostContainers(wl.HostID, host.workloads.Cardinality()); err != nil {
-			log.WithError(err).Warn("Failed to update host container count")
+			log.WithError(err).Debug("Failed to update host container count")
 		}
 	}
 }

@@ -336,7 +336,7 @@ type ClusterHelper interface {
 	PutSigstoreTimestamp(txn *cluster.ClusterTransact, rev *uint64) error
 	GetSigstoreTimestamp() (string, *uint64, error)
 	CreateQuerySessionRequest(qsr *api.QuerySessionRequest) error
-	DeleteQuerySessionRequest(queryToken string)
+	DeleteQuerySessionRequest(queryID string)
 
 	// mock for unittest
 	SetCacheMockCallback(keyStore string, mockFunc MockKvConfigUpdateFunc)
@@ -1403,7 +1403,7 @@ func (m clusterHelper) GetAllServers(acc *access.AccessControl) map[string]*shar
 
 	keys, err := cluster.GetStoreKeys(share.CLUSConfigServerStore)
 	if err != nil {
-		log.WithError(err).Warn("Failed to get server store keys")
+		log.WithError(err).Debug("Failed to get server store keys")
 	}
 	for _, key := range keys {
 		value, _, err := m.get(key)
@@ -3785,7 +3785,7 @@ func (m clusterHelper) GetAllCustomCheckConfig() map[string]*share.CLUSCustomChe
 	store := share.CLUSConfigScriptStore
 	keys, err := cluster.GetStoreKeys(store)
 	if err != nil {
-		log.WithError(err).Warn("failed to get custom check config keys from cluster")
+		log.WithError(err).Debug("failed to get custom check config keys from cluster")
 	}
 	for _, key := range keys {
 		group := share.CLUSKeyNthToken(key, 3)
@@ -4661,7 +4661,7 @@ func (m clusterHelper) GetSigstoreTimestamp() (string, *uint64, error) {
 }
 
 func (m clusterHelper) CreateQuerySessionRequest(qsr *api.QuerySessionRequest) error {
-	key := share.CLUSQuerySessionKey(qsr.QueryToken)
+	key := share.CLUSQuerySessionKey(qsr.QueryID)
 	value, err := json.Marshal(qsr)
 	if err != nil {
 		return err
@@ -4669,8 +4669,8 @@ func (m clusterHelper) CreateQuerySessionRequest(qsr *api.QuerySessionRequest) e
 	return cluster.PutIfNotExist(key, value, false)
 }
 
-func (m clusterHelper) DeleteQuerySessionRequest(queryToken string) {
-	key := share.CLUSQuerySessionKey(queryToken)
+func (m clusterHelper) DeleteQuerySessionRequest(queryID string) {
+	key := share.CLUSQuerySessionKey(queryID)
 	if err := cluster.Delete(key); err != nil {
 		log.WithError(err).Warn("Failed to delete query session request")
 	}

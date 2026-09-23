@@ -174,7 +174,7 @@ var restErrMessage = []string{
 	api.RESTErrPlatformAuthDisabled:  "Platform authentication is disabled",
 	api.RESTErrRancherUnauthorized:   "Rancher authentication failed",
 	api.RESTErrRemoteExportFail:      "Failed to export to remote repository",
-	api.RESTErrInvalidQueryToken:     "Invalid or expired query token",
+	api.RESTErrInvalidQueryID:        "Invalid or expired query id",
 	api.RESTErrPollJobNotFoundError:  "Job not found in the Job Queue",
 	api.RESTErrServerError:           "Server Error",
 }
@@ -1565,7 +1565,7 @@ func PreInitContext(ctx *Context) {
 	evqueue = ctx.EvQueue
 	auditQueue = ctx.AuditQueue
 
-	remoteAuther = auth.NewRemoteAuther(nil)
+	remoteAuther = auth.NewRemoteAuther(nil, common.AesGcmEncrypt, common.AesGcmDecrypt)
 	clusHelper = kv.GetClusterHelper()
 	cfgHelper = kv.GetConfigHelper()
 }
@@ -2019,9 +2019,8 @@ func StartRESTServer(isNewCluster, isLead bool, maxConcurrentRepoScanTasks, scan
 
 	addr := fmt.Sprintf(":%d", _restPort)
 	config := &tls.Config{
-		MinVersion:               tls.VersionTLS13,
-		PreferServerCipherSuites: true,
-		CipherSuites:             utils.GetSupportedTLSCipherSuites(),
+		MinVersion:   tls.VersionTLS13,
+		CipherSuites: utils.GetSupportedTLSCipherSuites(),
 	}
 
 	// tlsCertificate is only generated when default location has no files
@@ -2068,6 +2067,8 @@ func startFedRestServer(fedPingInterval uint32) {
 		return
 	} else {
 		_masterClusterIP = m.MasterCluster.RestInfo.Server
+		_fixedJoinToken = m.MasterCluster.FixedJoinToken
+		_allowSameK8sUidRejoin = m.MasterCluster.AllowSameK8sUidRejoin
 	}
 
 	fedRestServerMutex.Lock()
